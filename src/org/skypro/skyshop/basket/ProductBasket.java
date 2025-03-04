@@ -1,4 +1,5 @@
 package org.skypro.skyshop.basket;
+
 import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
@@ -35,10 +36,15 @@ public class ProductBasket {
         if (count == 0) {
             System.out.println("В корзине пусто.");
         } else {
+            int specialCount = 0;  // Счетчик специальных товаров
             for (int i = 0; i < count; i++) {
-                System.out.println(products[i].getName() + ": " + products[i].getPrice());
+                System.out.println(products[i].toString());
+                if (products[i].isSpecial()) {
+                    specialCount++;
+                }
             }
             System.out.println("Итого: " + getTotalPrice());
+            System.out.println("Специальных товаров: " + specialCount);
         }
     }
 
