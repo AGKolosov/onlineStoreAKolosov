@@ -1,21 +1,29 @@
 package org.skypro.skyshop.product;
 
-public class Product {
-    private final String nameProduct;  // Название продукта
-    private final int priceProduct;    // Стоимость продукта
+import org.skypro.skyshop.search.Searchable;
 
-    // Конструктор
-    public Product(String name, int price) {
-        this.nameProduct = name;
-        this.priceProduct = price;
+public abstract class Product implements Searchable {
+    private final String name;
+
+    public Product(String name) {
+        this.name = name;
     }
 
-    // Геттеры
     public String getName() {
-        return nameProduct;
+        return name;
     }
 
-    public int getPrice() {
-        return priceProduct;
+    public abstract int getPrice();
+
+    public abstract boolean isSpecial();
+
+    @Override
+    public String getSearchTerm() {
+        return getName();
+    }
+
+    @Override
+    public String getContentType() {
+        return "PRODUCT";
     }
 }
