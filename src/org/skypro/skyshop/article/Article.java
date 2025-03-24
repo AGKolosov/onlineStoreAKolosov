@@ -3,16 +3,14 @@ package org.skypro.skyshop.article;
 import org.skypro.skyshop.search.Searchable;
 
 public class Article implements Searchable {
-    private final String title;  // Название статьи
-    private final String text;   // Текст статьи
+    private final String title;
+    private final String text;
 
-    // Конструктор
     public Article(String title, String text) {
         this.title = title;
         this.text = text;
     }
 
-    // Геттеры
     public String getTitle() {
         return title;
     }
@@ -21,19 +19,16 @@ public class Article implements Searchable {
         return text;
     }
 
-    // Реализация метода getSearchTerm
     @Override
     public String getSearchTerm() {
-        return toString();  // Используем toString для поиска
+        return toString();
     }
 
-    // Реализация метода getContentType
     @Override
     public String getContentType() {
         return "ARTICLE";
     }
 
-    // Переопределение метода toString
     @Override
     public String toString() {
         return title + "\n" + text;

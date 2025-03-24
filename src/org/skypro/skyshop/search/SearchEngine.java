@@ -3,16 +3,14 @@ package org.skypro.skyshop.search;
 import java.util.Arrays;
 
 public class SearchEngine {
-    private final Searchable[] searchables;  // Массив для хранения объектов
-    private int count;                      // Количество добавленных объектов
+    private final Searchable[] searchables;
+    private int count;
 
-    // Конструктор
     public SearchEngine(int capacity) {
         this.searchables = new Searchable[capacity];
         this.count = 0;
     }
 
-    // Метод добавления объекта
     public void add(Searchable searchable) {
         if (count < searchables.length) {
             searchables[count] = searchable;
@@ -22,17 +20,16 @@ public class SearchEngine {
         }
     }
 
-    // Метод поиска
     public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];  // Массив для результатов
-        int found = 0;  // Количество найденных объектов
+        Searchable[] results = new Searchable[5];
+        int found = 0;
 
         for (int i = 0; i < count; i++) {
             if (searchables[i].getSearchTerm().contains(query)) {
                 results[found] = searchables[i];
                 found++;
                 if (found == 5) {
-                    break;  // Прерываем поиск, если найдено 5 объектов
+                    break;
                 }
             }
         }
