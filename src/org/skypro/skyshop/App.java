@@ -11,7 +11,7 @@ import org.skypro.skyshop.search.Searchable;
 public class App {
     public static void main(String[] args) {
         SimpleProduct product1 = new SimpleProduct("Яблоко", 50);
-        DiscountedProduct product2 = new DiscountedProduct("Банан", 100, 20);  // Скидка 20%
+        DiscountedProduct product2 = new DiscountedProduct("Банан", 100, 20);
         FixPriceProduct product3 = new FixPriceProduct("Апельсин");
         Article article1 = new Article("Как выбрать яблоки", "Советы по выбору свежих яблок.");
         Article article2 = new Article("Польза бананов", "Почему бананы полезны для здоровья.");
