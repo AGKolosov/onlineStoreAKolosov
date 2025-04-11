@@ -1,52 +1,51 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
-import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.*;
+import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
+
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        // Создаем несколько продуктов
-        Product product1 = new Product("Яблоко", 50);
-        Product product2 = new Product("Банан", 30);
-        Product product3 = new Product("Апельсин", 70);
+        Product product1 = new SimpleProduct("Яблоко", 50);
+        Product product2 = new SimpleProduct("Банан", 30);
+        Product product3 = new SimpleProduct("ЯблокО", 60);
 
-        // Создаем корзину
         ProductBasket basket = new ProductBasket();
-
-        // 1. Добавление продукта в корзину
         basket.addProduct(product1);
         basket.addProduct(product2);
         basket.addProduct(product3);
 
-        // 2. Попытка добавить продукт в заполненную корзину
-        basket.addProduct(new Product("Груша", 60));
-        basket.addProduct(new Product("Лимон", 40));
-        basket.addProduct(new Product("Манго", 100));  // Корзина заполнена
-
-        // 3. Печать содержимого корзины
-        System.out.println("\nСодержимое корзины:");
+        System.out.println("=== Исходная корзина ===");
         basket.printBasket();
 
-        // 4. Получение стоимости корзины
-        System.out.println("\nОбщая стоимость корзины: " + basket.getTotalPrice());
+        System.out.println("\nУдаляем 'Яблоко'...");
+        List<Product> removed = basket.removeProductsByName(" яБлоко");
 
-        // 5. Поиск товара, который есть в корзине
-        System.out.println("\nЕсть ли в корзине 'Банан'? " + basket.containsProduct("Банан"));
+        if (!removed.isEmpty()) {
+            System.out.println("Удалено товаров: " + removed.size());
+            removed.forEach(p -> System.out.println("- " + p.getName() + " (" + p.getPrice() + ")"));
+        } else {
+            System.out.println("Товары не найдены");
+        }
 
-        // 6. Поиск товара, которого нет в корзине
-        System.out.println("Есть ли в корзине 'Манго'? " + basket.containsProduct("Манго"));
-
-        // 7. Очистка корзины
-        basket.clearBasket();
-
-        // 8. Печать содержимого пустой корзины
-        System.out.println("\nСодержимое корзины после очистки:");
+        System.out.println("\n=== Корзина после удаления ===");
         basket.printBasket();
 
-        // 9. Получение стоимости пустой корзины
-        System.out.println("\nОбщая стоимость пустой корзины: " + basket.getTotalPrice());
+        System.out.println("\nПытаемся удалить 'Апельсин'...");
+        removed = basket.removeProductsByName("Апельсин");
+        System.out.println(removed.isEmpty() ? "Список пуст" : "Удалено: " + removed.size());
 
-        // 10. Поиск товара по имени в пустой корзине
-        System.out.println("\nЕсть ли в корзине 'Яблоко'? " + basket.containsProduct("Яблоко"));
+        SearchEngine engine = new SearchEngine();
+        engine.add(product1);
+        engine.add(product2);
+        engine.add(new Article("Фрукты", "Яблоки и бананы полезны для здоровья"));
+
+        System.out.println("\n=== Результаты поиска 'банан' ===");
+        List<Searchable> results = engine.search("БанАн");
+        results.forEach(r -> System.out.println(r.getSearchTerm()));
     }
 }
