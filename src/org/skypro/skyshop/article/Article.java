@@ -30,6 +30,11 @@ public class Article implements Searchable {
     }
 
     @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
     public String toString() {
         return title + "\n" + text;
     }

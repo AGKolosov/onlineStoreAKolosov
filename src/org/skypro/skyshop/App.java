@@ -6,46 +6,35 @@ import org.skypro.skyshop.product.*;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
-import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
-        Product product1 = new SimpleProduct("Яблоко", 50);
-        Product product2 = new SimpleProduct("Банан", 30);
-        Product product3 = new SimpleProduct("ЯблокО", 60);
-
         ProductBasket basket = new ProductBasket();
-        basket.addProduct(product1);
-        basket.addProduct(product2);
-        basket.addProduct(product3);
+        basket.addProduct(new SimpleProduct("Яблоко", 50));
+        basket.addProduct(new SimpleProduct("Банан", 30));
+        basket.addProduct(new SimpleProduct("Яблоко", 60));
+        basket.addProduct(new DiscountedProduct("Апельсин", 100, 10));
 
-        System.out.println("=== Исходная корзина ===");
+        System.out.println("=== Содержимое корзины ===");
         basket.printBasket();
 
         System.out.println("\nУдаляем 'Яблоко'...");
-        List<Product> removed = basket.removeProductsByName(" яБлоко");
-
-        if (!removed.isEmpty()) {
-            System.out.println("Удалено товаров: " + removed.size());
-            removed.forEach(p -> System.out.println("- " + p.getName() + " (" + p.getPrice() + ")"));
-        } else {
-            System.out.println("Товары не найдены");
-        }
+        var removed = basket.removeProductsByName("Яблоко");
+        System.out.println("Удалено: " + removed.size() + " товаров");
 
         System.out.println("\n=== Корзина после удаления ===");
         basket.printBasket();
 
-        System.out.println("\nПытаемся удалить 'Апельсин'...");
-        removed = basket.removeProductsByName("Апельсин");
-        System.out.println(removed.isEmpty() ? "Список пуст" : "Удалено: " + removed.size());
-
         SearchEngine engine = new SearchEngine();
-        engine.add(product1);
-        engine.add(product2);
+        engine.add(new SimpleProduct("Бананы", 60));
         engine.add(new Article("Фрукты", "Яблоки и бананы полезны для здоровья"));
+        engine.add(new DiscountedProduct("Груша", 50, 5));
 
         System.out.println("\n=== Результаты поиска 'банан' ===");
-        List<Searchable> results = engine.search("БанАн");
-        results.forEach(r -> System.out.println(r.getSearchTerm()));
+        Map<String, Searchable> results = engine.search("БанАн");
+        results.forEach((name, item) ->
+                System.out.println(name + ": " + item.getSearchTerm())
+        );
     }
 }
